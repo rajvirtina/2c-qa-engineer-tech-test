@@ -10,8 +10,10 @@ export interface Book {
   rating: number;
 }
 
-// In-memory storage for books (simulates a database)
-export const booksData: Book[] = [
+export type CreateBookInput = Pick<Book, 'title' | 'author'> &
+  Partial<Omit<Book, 'id' | 'title' | 'author'>>;
+
+const initialBooksData: Book[] = [
   {
     id: 1,
     title: "The Great Gatsby",
@@ -69,11 +71,29 @@ export const booksData: Book[] = [
   }
 ];
 
+declare global {
+  var __BOOKS_DATA__: Book[] | undefined;
+}
+
+// Keep a single mutable store across route-module evaluations in dev/test.
+export const booksData: Book[] = globalThis.__BOOKS_DATA__ ?? [...initialBooksData];
+
+if (!globalThis.__BOOKS_DATA__) {
+  globalThis.__BOOKS_DATA__ = booksData;
+}
+
 // Helper functions for managing books
-export const addBook = (book: Omit<Book, 'id'>): Book => {
+export const addBook = (book: CreateBookInput): Book => {
   const newBook: Book = {
-    ...book,
-    id: Math.max(...booksData.map(b => b.id)) + 1
+    id: Math.max(...booksData.map((b) => b.id)) + 1,
+    title: book.title,
+    author: book.author,
+    genre: book.genre ?? 'Unknown',
+    publishedYear: book.publishedYear ?? new Date().getFullYear(),
+    description: book.description ?? 'No description available.',
+    isbn: book.isbn ?? 'N/A',
+    pages: book.pages ?? 0,
+    rating: book.rating ?? 0,
   };
   booksData.push(newBook);
   return newBook;
@@ -83,6 +103,6 @@ export const getBooks = (): Book[] => {
   return booksData;
 };
 
-export const getBookById = (id: number): Book | undefined => {
-  return booksData.find(book => book.id === id);
+export const getBookById = (id: number): Book | null => {
+  return booksData.find((book) => book.id === id) ?? null;
 };

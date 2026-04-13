@@ -37,6 +37,20 @@ This is a technical test for QA Engineer applicants. The application is a simple
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
+5. Install Playwright browsers:
+   ```bash
+    npx playwright install
+    ```
+6. Run unit tests
+   ```bash
+    npm run test
+    ```
+
+7. Run E2E tests (auto-starts dev server):
+   ```bash
+    npm run test:e2e
+    ```
+
 ### Available Scripts
 
 - `npm run dev` - Start development server
@@ -104,3 +118,83 @@ Adds a new book to the library
 ```
 
 **Required Fields:** `title`, `author`
+
+
+## What's Been Added
+
+| Path | Description |
+|------|-------------|
+| `tests/e2e/home.spec.ts` | Home page layout, book list, navigation, responsive |
+| `tests/e2e/book-detail.spec.ts` | Detail page content, 404 handling, navigation |
+| `tests/e2e/add-book.spec.ts` | Form validation, happy paths, UX checks |
+| `tests/e2e/api.spec.ts` | HTTP-level API contract tests (GET & POST) |
+| `tests/e2e/user-journeys.spec.ts` | Multi-page end-to-end user flows |
+| `tests/e2e/accessibility.spec.ts` | ARIA roles, keyboard nav, label associations |
+| `tests/unit/api-books.test.ts` | Unit tests for /api/books route handler |
+| `tests/unit/api-books-id.test.ts` | Unit tests for /api/books/[id] route handler |
+| `tests/unit/books-data.test.ts` | Unit tests for the in-memory data store |
+| `tests/unit/book-validation.test.ts` | Pure validation logic tests |
+| `tests/unit/setup.ts` | Global Vitest setup (fetch polyfill, jest-dom) |
+| `playwright.config.ts` | Playwright configuration (5 browser/device projects) |
+| `vitest.config.ts` | Vitest configuration with path aliases and coverage |
+| `tests/e2e/pom.spec.ts` | POM-based tests demonstrating the fixture pattern |
+| `tests/fixtures/page-objects.ts` | Page Object Models (HomePage, BookDetailPage, AddBookPage) |
+| `tests/fixtures/fixtures.ts` | Custom Playwright fixtures wiring up POMs |
+| `.github/workflows/tests.yml` | GitHub Actions CI — unit + E2E across 3 browsers |
+| `docs/TESTING_STRATEGY.md` | Full testing strategy and rationale |
+| `docs/PACKAGE_JSON_ADDITIONS.md` | Scripts and dev deps added to package.json |
+
+## Test Count Summary
+
+| Layer | File | Tests |
+|-------|------|-------|
+| E2E | home.spec.ts | 11 |
+| E2E | book-detail.spec.ts | 13 |
+| E2E | add-book.spec.ts | 16 |
+| E2E | api.spec.ts | 19 |
+| E2E | user-journeys.spec.ts | 8 |
+| E2E | accessibility.spec.ts | 10 |
+| Unit | api-books.test.ts | 10 |
+| Unit | api-books-id.test.ts | 6 |
+| Unit | books-data.test.ts | 13 |
+| Unit | book-validation.test.ts | 25 |
+| E2E | pom.spec.ts | 8 |
+| **Total** | | **~139** |
+
+
+### Useful Commands
+
+1. E2E — specific spec
+   ```bash
+   npm run test:e2e -- tests/e2e/add-book.spec.ts
+   ```
+
+2. E2E — single browser
+   ```bash
+   npm run test:e2e -- --project=chromium
+   ```
+
+3. E2E — headed (see the browser)
+    ```bash
+    npm run test:e2e -- --headed
+    ```
+
+4. E2E — debug mode
+   ```bash
+    npm run test:e2e -- --debug
+    ```
+5. View HTML report after E2E run
+   ```bash
+    npx playwright show-report
+    ```
+
+6. Unit tests with coverage
+   ```bash
+    npm run test:coverage
+    ```
+## Full Documentation
+
+See [docs/TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) for the test pyramid rationale, per-file scenario breakdowns, design decisions, and known limitations.
+
+Full test plan and inventory: [`TEST_PLAN.md`](docs/TEST_PLAN.md)
+

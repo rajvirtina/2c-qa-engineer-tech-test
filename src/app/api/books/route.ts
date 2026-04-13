@@ -11,9 +11,11 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const title = typeof body.title === 'string' ? body.title.trim() : '';
+    const author = typeof body.author === 'string' ? body.author.trim() : '';
     
     // Validate required fields
-    if (!body.title || !body.author) {
+    if (!title || !author) {
       return NextResponse.json(
         { error: 'Title and author are required' },
         { status: 400 }
@@ -22,8 +24,8 @@ export async function POST(request: NextRequest) {
 
     // Create new book
     const newBook = addBook({
-      title: body.title,
-      author: body.author,
+      title,
+      author,
       genre: body.genre || 'Unknown',
       publishedYear: body.publishedYear || new Date().getFullYear(),
       description: body.description || 'No description available.',

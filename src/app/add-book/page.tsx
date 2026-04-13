@@ -14,8 +14,8 @@ export default function AddBook() {
     publishedYear: new Date().getFullYear(),
     description: '',
     isbn: '',
-    pages: 0,
-    rating: 0
+    pages: undefined,
+    rating: undefined
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,11 +23,26 @@ export default function AddBook() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
+    if (name === 'publishedYear' || name === 'pages' || name === 'rating') {
+      const parsedValue =
+        value === ''
+          ? undefined
+          : name === 'rating'
+            ? parseFloat(value)
+            : parseInt(value, 10);
+
+      setFormData((prev) => ({
+        ...prev,
+        [name]: Number.isNaN(parsedValue) ? undefined : parsedValue,
+      }));
+
+      return;
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'publishedYear' || name === 'pages' || name === 'rating' 
-        ? parseInt(value) || 0 
-        : value
+      [name]: value
     }));
   };
 
@@ -188,7 +203,7 @@ export default function AddBook() {
                     type="number"
                     id="pages"
                     name="pages"
-                    value={formData.pages}
+                    value={formData.pages ?? ''}
                     onChange={handleInputChange}
                     min="1"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -220,7 +235,7 @@ export default function AddBook() {
                   type="number"
                   id="rating"
                   name="rating"
-                  value={formData.rating}
+                  value={formData.rating ?? ''}
                   onChange={handleInputChange}
                   min="0"
                   max="5"

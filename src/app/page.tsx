@@ -80,45 +80,49 @@ export default function Home() {
             <p className="text-gray-600">Start by adding your first book!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ul
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            data-testid="book-list"
+          >
             {books.map((book) => (
-              <Link 
-                key={book.id} 
-                href={`/book/${book.id}`}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden"
-              >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h2 className="text-xl font-semibold text-gray-900 line-clamp-2">
-                      {book.title}
-                    </h2>
-                    <div className="flex items-center text-yellow-500">
-                      <span className="text-sm font-medium">{book.rating}</span>
-                      <span className="ml-1">⭐</span>
+              <li key={book.id} data-testid="book-item">
+                <Link 
+                  href={`/book/${book.id}`}
+                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden"
+                >
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <h2 className="text-xl font-semibold text-gray-900 line-clamp-2">
+                        {book.title}
+                      </h2>
+                      <div className="flex items-center text-yellow-500">
+                        <span className="text-sm font-medium">{book.rating}</span>
+                        <span className="ml-1">⭐</span>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-600 font-medium mb-2">by {book.author}</p>
+                    
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                        {book.genre}
+                      </span>
+                      <span>{book.publishedYear}</span>
+                      <span>{book.pages} pages</span>
+                    </div>
+                    
+                    <p className="text-gray-600 text-sm line-clamp-3">
+                      {book.description}
+                    </p>
+                    
+                    <div className="mt-4 text-blue-600 text-sm font-medium">
+                      View details →
                     </div>
                   </div>
-                  
-                  <p className="text-gray-600 font-medium mb-2">by {book.author}</p>
-                  
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                      {book.genre}
-                    </span>
-                    <span>{book.publishedYear}</span>
-                    <span>{book.pages} pages</span>
-                  </div>
-                  
-                  <p className="text-gray-600 text-sm line-clamp-3">
-                    {book.description}
-                  </p>
-                  
-                  <div className="mt-4 text-blue-600 text-sm font-medium">
-                    View details →
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </div>
