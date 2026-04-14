@@ -134,6 +134,8 @@ Adds a new book to the library
 | `tests/unit/api-books-id.test.ts` | Unit tests for /api/books/[id] route handler |
 | `tests/unit/books-data.test.ts` | Unit tests for the in-memory data store |
 | `tests/unit/book-validation.test.ts` | Pure validation logic tests |
+| `tests/unit/error-handling.spec.ts` | Additional Playwright-style error recovery scenarios present in the repo but not active under current test config |
+| `tests/unit/navigation.spec.ts` | Additional Playwright-style navigation scenarios present in the repo but not active under current test config |
 | `tests/unit/setup.ts` | Global Vitest setup (fetch polyfill, jest-dom) |
 | `playwright.config.ts` | Playwright configuration (5 browser/device projects) |
 | `vitest.config.ts` | Vitest configuration with path aliases and coverage |
@@ -148,9 +150,9 @@ Adds a new book to the library
 
 | Layer | File | Tests |
 |-------|------|-------|
-| E2E | home.spec.ts | 11 |
-| E2E | book-detail.spec.ts | 13 |
-| E2E | add-book.spec.ts | 16 |
+| E2E | home.spec.ts | 19 |
+| E2E | book-detail.spec.ts | 25 |
+| E2E | add-book.spec.ts | 30 |
 | E2E | api.spec.ts | 19 |
 | E2E | user-journeys.spec.ts | 8 |
 | E2E | accessibility.spec.ts | 10 |
@@ -158,8 +160,16 @@ Adds a new book to the library
 | Unit | api-books-id.test.ts | 6 |
 | Unit | books-data.test.ts | 13 |
 | Unit | book-validation.test.ts | 25 |
-| E2E | pom.spec.ts | 8 |
-| **Total** | | **~139** |
+| E2E | pom.spec.ts | 9 |
+| **Total active automated suites** | | **174** |
+
+Additional authored but inactive under the current runner config:
+
+| Layer | File | Tests |
+|-------|------|-------|
+| Repo-only | error-handling.spec.ts | 13 |
+| Repo-only | navigation.spec.ts | 9 |
+| **Total additional inactive cases** | | **22** |
 
 
 ### Useful Commands

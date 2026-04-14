@@ -1,7 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-beforeEach(() => {
+beforeEach(async () => {
   vi.resetModules();
+
+  const { resetBooksData } = await import('@/lib/books-data');
+  resetBooksData();
 });
 
 describe('books-data: getBooks', () => {

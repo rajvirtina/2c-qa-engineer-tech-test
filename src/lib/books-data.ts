@@ -13,6 +13,9 @@ export interface Book {
 export type CreateBookInput = Pick<Book, 'title' | 'author'> &
   Partial<Omit<Book, 'id' | 'title' | 'author'>>;
 
+const cloneInitialBooksData = (): Book[] =>
+  initialBooksData.map((book) => ({ ...book }));
+
 const initialBooksData: Book[] = [
   {
     id: 1,
@@ -76,11 +79,16 @@ declare global {
 }
 
 // Keep a single mutable store across route-module evaluations in dev/test.
-export const booksData: Book[] = globalThis.__BOOKS_DATA__ ?? [...initialBooksData];
+export const booksData: Book[] = globalThis.__BOOKS_DATA__ ?? cloneInitialBooksData();
 
 if (!globalThis.__BOOKS_DATA__) {
   globalThis.__BOOKS_DATA__ = booksData;
 }
+
+export const resetBooksData = (): void => {
+  booksData.splice(0, booksData.length, ...cloneInitialBooksData());
+  globalThis.__BOOKS_DATA__ = booksData;
+};
 
 // Helper functions for managing books
 export const addBook = (book: CreateBookInput): Book => {
